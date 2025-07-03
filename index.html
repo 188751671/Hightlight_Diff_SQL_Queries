@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <title>SQL Diff Highlighter</title>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/diff/5.1.0/diff.min.js"></script>
+
+  <style>
+
+    body { font-family: Arial, sans-serif; margin: 20px; }
+
+    textarea { width: 100%; height: 100px; margin-bottom: 10px; }
+
+    .container { display: flex; gap: 20px; }
+
+    .result { flex: 1; padding: 10px; border: 1px solid #ccc; white-space: pre-wrap; font-family: monospace; }
+
+    .removed { background-color: #fdd; }
+
+    .added { background-color: #dfd; }
+
+  </style>
+
+</head>
+
+<body>
+
+  <h2>SQL Diff Highlighter</h2>
+
+  <label for="queryA">Query A:</label>
+
+  <textarea id="queryA">u.gender = 1 AND (r.with_gender = 0 OR r.with_gender = 2) AND u.age >= 18 AND u.age <= 120 AND r.with_age_min <= 20 AND r.with_age_max >= 20 AND (r.start_day='2100-01-01' OR (r.start_day='2025-07-04' AND 10 = ANY(r.start_time)))  AND (o.num_of_people = 2 OR o.num_of_people = 0) LIMIT 2</textarea>
+
+  <label for="queryB">Query B:</label>
+
+  <textarea id="queryB">u.gender = 1 AND (r.with_gender = 0 OR r.with_gender = 2) AND u.age >= 18 AND u.age <= 120 AND r.with_age_min <= 20 AND r.with_age_max >= 20 AND (r.start_day='2100-01-01' OR (r.start_day='2025-07-04' AND 10 = ANY(r.start_time)))  AND (o.num_of_people = 8 OR o.num_of_people = 0) LIMIT 8</textarea>
+
+  <button onclick="compare()">Compare</button>
+
+
+
+  <div class="container">
+
+    <div>
+
+      <h3>Query A Differences</h3>
+
+      <div id="resultA" class="result"></div>
+
+    </div>
+
+    <div>
+
+      <h3>Query B Differences</h3>
+
+      <div id="resultB" class="result"></div>
+
+    </div>
+
+  </div>
+
+
+
+  <script>
+
+    function compare() {
+
+      const a = document.getElementById('queryA').value;
+
+      const b = document.getElementById('queryB').value;
+
+
+
+      // Compute diff
+
+      const diff = Diff.diffWordsWithSpace(a, b);
+
+  
+
+      // Build highlighted versions
+
+      let htmlA = '';
+
+      let htmlB = '';
+
+      diff.forEach(part => {
+
+        const escaped = part.value.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+
+        if (part.added) {
+
+          htmlB += '<span class="added">' + escaped + '</span>';
+
+        } else if (part.removed) {
+
+          htmlA += '<span class="removed">' + escaped + '</span>';
+
+        } else {
+
+          htmlA += escaped;
+
+          htmlB += escaped;
+
+        }
+
+      });
+
+
+
+      document.getElementById('resultA').innerHTML = htmlA;
+
+      document.getElementById('resultB').innerHTML = htmlB;
+
+    }
+
+
+
+    // Auto-run on load
+
+    window.onload = compare;
+
+  </script>
+
+</body>
+
+</html>
