@@ -13,11 +13,7 @@
 <body>
   <h2>Highlight SQL Differences</h2>
   <p>Enter one SQL query per line:</p>
-  <textarea id="queries" oninput="process()">
-u.gender = 1 AND (r.with_gender = 0 OR r.with_gender = 2) AND u.age >= 18 AND u.age <= 120 AND r.with_age_min <= 20 AND r.with_age_max >= 20 AND o.sport=1 AND (r.start_day='2100-01-01' OR (r.start_day='2025-07-04' AND 16 = ANY(r.start_time)))  AND (o.num_of_people = 4 OR o.num_of_people = 0) LIMIT 4
-u.gender = 1 AND (r.with_gender = 0 OR r.with_gender = 2) AND u.age >= 18 AND u.age <= 120 AND r.with_age_min <= 20 AND r.with_age_max >= 20 AND o.sport=2 AND (r.start_day='2100-01-01' OR (r.start_day='2025-07-04' AND 16 = ANY(r.start_time)))  AND (o.num_of_people = 2 OR o.num_of_people = 0) LIMIT 2
-u.gender = 1 AND (r.with_gender = 0 OR r.with_gender = 2) AND u.age >= 18 AND u.age <= 120 AND r.with_age_min <= 20 AND r.with_age_max >= 20 AND o.sport=3 AND (r.start_day='2100-01-01' OR (r.start_day='2025-07-04' AND 16 = ANY(r.start_time)))  AND (o.num_of_people = 8 OR o.num_of_people = 0) LIMIT 8
-  </textarea>
+  <textarea id="queries" oninput="process()" placeholder="u.gender = 1 AND ..."></textarea>
   <div id="results"></div>
   <script>
     function process() {
